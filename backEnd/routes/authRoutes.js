@@ -1,12 +1,22 @@
 // routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
-const { registerUser, loginUser } = require('../controllers/authController');
+const {
+  registerUser,
+  loginUser,
+  getProfile,
+  updateProfile,
+  deleteProfile
+} = require('../controllers/authController');
+const { protect } = require('../middleware/authMiddleware');
 
-// Route for user registration
+// Public Routes
 router.post('/register', registerUser);
-
-// Route for user login
 router.post('/login', loginUser);
+
+// Protected Routes
+router.get('/profile', protect, getProfile);
+router.put('/profile', protect, updateProfile);
+router.delete('/profile', protect, deleteProfile);
 
 module.exports = router;
