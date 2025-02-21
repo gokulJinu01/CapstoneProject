@@ -1,7 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// Import your pages
 import Home from '../pages/1_Home/Home';
 import ExploreChefs from '../pages/2_ExploreChefs/ExploreChefs';
 import ChefProfile from '../pages/3_ChefProfile/ChefProfile';
@@ -25,7 +23,6 @@ const AppRouter = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
-        {/* Add other routes as needed */}
       </Routes>
     </Router>
   );
