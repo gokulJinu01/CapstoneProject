@@ -1,11 +1,15 @@
+// src/App.js
 import React from 'react';
+import AuthProvider from './context/AuthContext';
 import AppRouter from './routes/AppRouter';
 
 function App() {
   return (
-    <div className="font-sans">
-      <AppRouter />
-    </div>
+    <AuthProvider>
+      <div className="font-sans">
+        <AppRouter />
+      </div>
+    </AuthProvider>
   );
 }
 
