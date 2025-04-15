@@ -8,41 +8,38 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: { type: String, enum: ['User', 'Chef', 'Admin'], default: 'User' },
 
-    // Optional: Universal profile picture
+    // Universal profile picture
     profilePicture: { type: String, default: '' },
 
     chefProfile: {
       specialty: { type: String, default: '' },
-      experience: { type: Number, min: 0, default: 0 },
+      experience: { type: String, default: '' },
       bio: { type: String, default: '' },
       location: { type: String, default: '' },
-      pricing: { type: Number, default: 0 },
-      availability: { type: Boolean, default: true },
-      socialLinks: {
-        instagram: { type: String, default: '' },
-        website: { type: String, default: '' }
-      },
-      gallery: [{ type: String }], // Array of dish images
-      // Reviews are stored in 'Review' model and can be populated
+      hourlyRate: { type: Number, default: 100 },
+      availability: { type: Boolean, default: false },
+      cuisines: [{ type: String }], // Array of cuisines
+      featured: { type: Boolean, default: false },
+      rating: { type: Number, default: 4.5, min: 0, max: 5 },
+      image: { type: String, default: '' },
+      gallery: [{ type: String }] // Array of dish/work images
     },
 
     userProfile: {
       preferences: [{ type: String }], // E.g. ["Vegetarian", "Italian Cuisine"]
       favoriteChefs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-      location: { type: String, default: '' }
+      location: { type: String, default: '' },
+      phone: { type: String, default: '' },
+      address: { type: String, default: '' },
+      dietary_preferences: [{ type: String }],
+      allergies: [{ type: String }],
+      bio: { type: String, default: '' }
     }
   },
   { timestamps: true }
 );
 
-// Middleware: remove chefProfile if user is not a Chef
-userSchema.pre('save', function (next) {
-  if (this.role === 'Chef') {
-    this.userProfile = undefined;
-  } else if (this.role === 'User') {
-    this.chefProfile = undefined;
-  }
-  next();
-});
+// Don't remove profiles based on role, just allow both types of profiles
+// This prevents errors with frontend implementations that expect both profile types
 
 module.exports = mongoose.model('User', userSchema);

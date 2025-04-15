@@ -2,21 +2,29 @@
 const express = require('express');
 const router = express.Router();
 const {
-  registerUser,
-  loginUser,
-  getProfile,
+  register,
+  login,
+  getMe,
   updateProfile,
-  deleteProfile
+  forgotPassword,
+  resetPassword,
+  createAdmin,
+  refreshToken,
+  verifyEmail
 } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 
 // Public Routes
-router.post('/register', registerUser);
-router.post('/login', loginUser);
+router.post('/register', register);
+router.post('/login', login);
+router.post('/create-admin', createAdmin);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
+router.post('/refresh-token', refreshToken);
 
 // Protected Routes
-router.get('/profile', protect, getProfile);
+router.get('/me', protect, getMe);
 router.put('/profile', protect, updateProfile);
-router.delete('/profile', protect, deleteProfile);
+router.post('/verify-email', verifyEmail);
 
 module.exports = router;
